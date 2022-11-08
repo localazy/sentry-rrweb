@@ -1,6 +1,6 @@
 {
   "name": "@localazy/rrweb",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Integration between sentry and rrweb. (Fork of @sentry/rrweb)",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
