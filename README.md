@@ -1,6 +1,6 @@
 # sentry-rrweb
 
-This integration is a WIP.
+This is a fork of https://github.com/getsentry/sentry-rrweb.
 
 ## Pre-Requisites
 

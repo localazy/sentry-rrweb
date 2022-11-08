@@ -1,7 +1,7 @@
 {
-  "name": "@sentry/rrweb",
+  "name": "@localazy/rrweb",
   "version": "0.3.3",
-  "description": "Integration between sentry and rrweb.",
+  "description": "Integration between sentry and rrweb. (Fork of @sentry/rrweb)",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
@@ -15,14 +15,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/getsentry/sentry-rrweb.git"
+    "url": "git+https://github.com/localazy/sentry-rrweb"
   },
   "author": "David Cramer",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/getsentry/sentry-rrweb/issues"
+    "url": "https://github.com/localazy/sentry-rrweb/issues"
   },
-  "homepage": "https://github.com/getsentry/sentry-rrweb#readme",
+  "homepage": "https://github.com/localazy/sentry-rrweb#readme",
   "peerDependencies": {
     "rrweb": ">=0.7.0",
     "@sentry/browser": ">=4.0.0"
