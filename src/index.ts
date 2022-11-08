@@ -1,6 +1,6 @@
 import { record, EventType } from 'rrweb';
 import * as Sentry from '@sentry/browser';
-import { Event } from '@sentry/types';
+import { Event, EventHint } from '@sentry/types';
 
 type RRWebEvent = {
   type: EventType;
@@ -9,7 +9,10 @@ type RRWebEvent = {
   delay?: number;
 };
 
-type RRWebOptions = Parameters<typeof record>[0] & { errorsOnly?: boolean; };
+type RRWebOptions = Parameters<typeof record>[0] & {
+  errorsOnly?: boolean;
+  shouldSendRecord?: (event: Event, hint: EventHint) => boolean;
+ };
 
 export default class SentryRRWeb {
   public readonly name: string = SentryRRWeb.id;
@@ -45,7 +48,7 @@ export default class SentryRRWeb {
   }
 
   public setupOnce() {
-    Sentry.addGlobalEventProcessor((event: Event) => this.processEvent(event));
+    Sentry.addGlobalEventProcessor((event: Event, hint: EventHint) => this.processEvent(event, hint));
   }
 
   // In version 6.10 of the JS SDK, `dsn.publicKey` was introduced to replace
@@ -61,13 +64,16 @@ export default class SentryRRWeb {
     }/api/${projectId}/events/${eventId}/attachments/?sentry_key=${publicKey}&sentry_version=7&sentry_client=rrweb`;
   }
 
-  protected processEvent(event: Event) {
+  protected processEvent(event: Event, hint: EventHint) {
     const self = Sentry.getCurrentHub().getIntegration(SentryRRWeb);
     if (!self) return;
     try {
       // short circuit if theres no events to replay
-      if (!this.events.length) return;
+      if (!this.events.length) return event;
       if (this.recordOptions['errorsOnly'] && event.type === 'transaction') {
+        return event;
+      }
+      if (this.recordOptions.shouldSendRecord && this.recordOptions.shouldSendRecord(event, hint) === false) {
         return event;
       }
       const client = Sentry.getCurrentHub().getClient();
